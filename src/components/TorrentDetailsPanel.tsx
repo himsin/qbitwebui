@@ -39,6 +39,7 @@ interface Props {
 	onToggle: () => void
 	height: number
 	onHeightChange: (h: number) => void
+	selectedCount?: number
 }
 
 type Tab = 'general' | 'trackers' | 'peers' | 'http' | 'content'
@@ -769,7 +770,7 @@ function ContentTab({ hash }: { hash: string }) {
 	return <ContentTabInner key={hash} hash={hash} files={files} />
 }
 
-export function TorrentDetailsPanel({ hash, name, category, tags, expanded, onToggle, height, onHeightChange }: Props) {
+export function TorrentDetailsPanel({ hash, name, category, tags, expanded, onToggle, height, onHeightChange, selectedCount = 0 }: Props) {
 	const [tab, setTab] = useState<Tab>('general')
 	const [dragging, setDragging] = useState(false)
 	const dragStartY = useRef(0)
@@ -896,7 +897,7 @@ export function TorrentDetailsPanel({ hash, name, category, tags, expanded, onTo
 							<div className="text-center">
 								<MousePointer className="w-8 h-8 mx-auto mb-2" style={{ color: 'var(--border)' }} strokeWidth={1} />
 								<p className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
-									Select a torrent
+									{selectedCount > 1 ? `${selectedCount} torrents selected` : 'Select a torrent'}
 								</p>
 							</div>
 						</div>
