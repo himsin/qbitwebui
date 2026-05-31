@@ -289,7 +289,8 @@ integrations.post('/:id/grab', async (c) => {
 		})
 
 		const addText = await addRes.text()
-		if (!addRes.ok || (addText.trim() !== 'Ok.' && addText.trim() !== 'Ok')) {
+		const isSuccess = addRes.ok && (addRes.status === 204 || addText.trim() === 'Ok.' || addText.trim() === 'Ok' || addText.trim() === '')
+		if (!isSuccess) {
 			return c.json({ error: `Failed to add torrent: ${addText || `HTTP ${addRes.status}`}` }, 400)
 		}
 

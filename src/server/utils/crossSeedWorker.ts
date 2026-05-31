@@ -314,10 +314,10 @@ async function addTorrentToQbt(
 			body: formData,
 		})
 		const text = await res.text()
-		const apiSuccess = res.ok && text.trim().startsWith('Ok')
+		const apiSuccess = res.ok && (res.status === 204 || text.trim().startsWith('Ok') || text.trim() === '')
 
 		if (!apiSuccess) {
-			log.error(`[CrossSeed] API returned failure: ${text}`)
+			log.error(`[CrossSeed] API returned failure: ${text || `HTTP ${res.status}`}`)
 			return false
 		}
 	} catch (e) {
